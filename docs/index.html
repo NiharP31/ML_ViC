@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML-Based Video Compression</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            color: #333;
+        }
+        .header {
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, #0d47a1, #42a5f5);
+            color: white;
+            margin-bottom: 2rem;
+            border-radius: 0.3rem;
+        }
+        .metrics-card {
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s;
+        }
+        .metrics-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .code-block {
+            background: #f6f8fa;
+            border-radius: 0.3rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+        }
+        .results-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.3rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+        .section {
+            margin-bottom: 3rem;
+        }
+        .highlight {
+            background-color: #e3f2fd;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        .stage-box {
+            border-left: 5px solid #0d47a1;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header text-center">
+            <h1 class="display-4">ML-Based Video Compression</h1>
+            <p class="lead">Using autoencoders to compress video frames efficiently with minimal quality loss</p>
+        </header>
+
+        <section class="section" id="overview">
+            <h2>Project Overview</h2>
+            <div class="row">
+                <div class="col-md-8">
+                    <p>
+                        This project demonstrates how neural networks can be used for video compression tasks. 
+                        By training an autoencoder model to compress video frames into a low-dimensional latent space
+                        and reconstruct them with minimal loss, we can achieve competitive compression results compared
+                        to traditional codecs like H.264.
+                    </p>
+                    <p>
+                        The project showcases an important application of machine learning in multimedia processing,
+                        with potential applications in video streaming, storage, and transmission for mobile devices.
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Key Highlights</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Neural compression of video frames</li>
+                            <li class="list-group-item">Quantized latent space representation</li>
+                            <li class="list-group-item">Comparison with H.264 codec</li>
+                            <li class="list-group-item">Quality evaluation (PSNR, SSIM)</li>
+                            <li class="list-group-item">Interactive visualizations</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="approach">
+            <h2>Technical Approach</h2>
+            <p>
+                The project is implemented in four stages, each building on the previous:
+            </p>
+            
+            <div class="stage-box">
+                <h4>Stage 1: Frame Extraction</h4>
+                <p>
+                    Extracting individual frames from source videos using OpenCV to prepare data for neural compression.
+                </p>
+                <div class="code-block">
+                    <pre><code># Example frame extraction
+frames = extract_frames("input_video.mp4", "extracted_frames", interval=1)</code></pre>
+                </div>
+            </div>
+            
+            <div class="stage-box">
+                <h4>Stage 2: Autoencoder Construction</h4>
+                <p>
+                    Building and training a neural network with encoder, quantizer, and decoder components.
+                </p>
+                <div class="code-block">
+                    <pre><code># Autoencoder architecture
+model = VideoAutoencoder(latent_dim=64, num_bits=8)
+# Train model
+model = train_autoencoder(model, dataloader, num_epochs=5)</code></pre>
+                </div>
+            </div>
+            
+            <div class="stage-box">
+                <h4>Stage 3: Compression Evaluation</h4>
+                <p>
+                    Comparing our neural compression against traditional H.264 using objective quality metrics.
+                </p>
+                <div class="code-block">
+                    <pre><code># Evaluate compression methods
+autoencoder_results = evaluate_autoencoder(model, dataloader, device)
+h264_results = evaluate_h264(frames_dir, crf=23)</code></pre>
+                </div>
+            </div>
+            
+            <div class="stage-box">
+                <h4>Stage 4: Results Visualization</h4>
+                <p>
+                    Generating comprehensive visual reports to analyze compression performance.
+                </p>
+                <div class="code-block">
+                    <pre><code># Create visualizations
+visualizer = VideoComparisonVisualizer(original_frames, ae_frames, h264_frames)
+visualizer.generate_summary_report()</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="architecture">
+            <h2>Neural Network Architecture</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Encoder</h4>
+                    <ul>
+                        <li>5 convolutional layers with stride-2</li>
+                        <li>ReLU activations and batch normalization</li>
+                        <li>Reduces 256×256×3 image to 8×8×64 representation</li>
+                        <li>Progressive feature extraction from pixels to high-level features</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4>Decoder</h4>
+                    <ul>
+                        <li>5 transposed convolutional layers</li>
+                        <li>Mirror image of the encoder architecture</li>
+                        <li>Sigmoid activation for final output layer</li>
+                        <li>Reconstructs original image from latent representation</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <h4>Quantizer</h4>
+                    <p>
+                        The quantizer module simulates real-world bit constraints by reducing the precision of the latent representation.
+                        It uses a straight-through estimator technique to allow gradient flow during training, despite the non-differentiable
+                        quantization operation.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="results">
+            <h2>Results</h2>
+            
+            <div class="row">
+                <div class="col-md-12 mb-4">
+                    <img src="sample_frame_223.png" alt="Side-by-side comparison of original, autoencoder, and H.264 compression" class="results-img">
+                    <p class="text-center text-muted">Side-by-side comparison of original (left), autoencoder (middle), and H.264 (right) compressed frames</p>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card metrics-card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Quality Metrics</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Metric</th>
+                                        <th>Autoencoder</th>
+                                        <th>H.264</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Average PSNR</td>
+                                        <td>21.71 dB</td>
+                                        <td>23.52 dB</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Average SSIM</td>
+                                        <td>0.5373</td>
+                                        <td>0.8966</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Min PSNR</td>
+                                        <td>19.58 dB</td>
+                                        <td>18.63 dB</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Min SSIM</td>
+                                        <td>0.4353</td>
+                                        <td>0.8451</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Max PSNR</td>
+                                        <td>24.21 dB</td>
+                                        <td>26.69 dB</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Max SSIM</td>
+                                        <td>0.6296</td>
+                                        <td>0.9264</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Compression Ratio</td>
+                                        <td>48:1</td>
+                                        <td>24.47:1</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card metrics-card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Key Findings</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                <li><strong>Compression Efficiency:</strong> Our neural approach achieves nearly double the compression ratio (48:1) compared to H.264 (24.47:1), demonstrating the potential of learned compression techniques.</li>
+                                <li><strong>Quality Trade-offs:</strong> The autoencoder sacrifices some visual quality (lower PSNR and SSIM) to achieve higher compression rates, highlighting the fundamental trade-off in compression systems.</li>
+                                <li><strong>Consistency Patterns:</strong> The autoencoder shows more consistent performance across frames with less dramatic quality fluctuations, while H.264 exhibits higher peaks and lower valleys in quality metrics.</li>
+                                <li><strong>Future Potential:</strong> Despite lower quality metrics in this implementation, the neural approach demonstrates promising compression efficiency that could be improved with more sophisticated architectures and training techniques.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-12 mb-4">
+                    <h4>Metrics Over Time</h4>
+                    <img src="metrics_over_time.png" alt="Graph showing metrics over time" class="results-img">
+                    <p class="text-center text-muted">PSNR and SSIM metrics across video frames</p>
+                </div>
+                <div class="col-md-12">
+                    <h4>Metrics Distribution</h4>
+                    <img src="metrics_distribution.png" alt="Metrics distribution histograms" class="results-img">
+                    <p class="text-center text-muted">Distribution of PSNR and SSIM values for both compression methods</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="future">
+            <h2>Future Improvements</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Technical Enhancements</h5>
+                            <ul>
+                                <li>Implement 3D convolutions for temporal compression</li>
+                                <li>Add perceptual loss functions (VGG-based) for better visual quality</li>
+                                <li>Explore transformer-based architectures for feature extraction</li>
+                                <li>Implement entropy coding for further bit-rate reduction</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Applications & Extensions</h5>
+                            <ul>
+                                <li>Adapt for real-time streaming applications</li>
+                                <li>Optimize for mobile device deployment</li>
+                                <li>Create content-adaptive compression methods</li>
+                                <li>Develop specialized models for different content types (animation, sports, etc.)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="usage">
+            <h2>Using the Code</h2>
+            <p>
+                To run this project yourself, follow these steps:
+            </p>
+            <div class="code-block">
+                <pre><code># 1. Clone the repository
+git clone https://github.com/yourusername/ml-video-compression
+cd ml-video-compression
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Run the complete pipeline
+python extract_frames.py --video input_video.mp4 --output extracted_frames
+python frame_autoencoder.py --frames extracted_frames --epochs 10
+python compression_evaluation.py
+python results_visualization.py</code></pre>
+            </div>
+            <p>
+                The visualization results will be saved in the <span class="highlight">visualization_results</span> directory,
+                including comparison images, metrics reports, and the side-by-side video.
+            </p>
+        </section>
+        
+        <div class="footer">
+            <p>ML-Based Video Compression Project | Created by NiharP31</p>
+            <p><a href="https://github.com/NiharP31/ML_ViC">View on GitHub</a></p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
