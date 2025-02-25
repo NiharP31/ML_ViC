@@ -1,0 +1,6 @@
+*.mp4
+*.pth
+visualizarion_results/report.html
+*.jpg
+*.png
+*.csv
