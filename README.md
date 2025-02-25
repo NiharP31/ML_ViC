@@ -141,14 +141,4 @@ python compression_evaluation.py --model video_autoencoder.pth --frames extracte
 python results_visualization.py
 ```
 
-## Future Improvements
-
-- **3D Convolutions**: Extend to temporal compression across frames
-- **Perceptual Loss**: Implement VGG-based perceptual loss for better visual quality
-- **Variable Rate Compression**: Dynamic compression based on frame content
-- **Transformer Integration**: Explore vision transformers for better feature extraction
-
-## License
-
-[Specify your license here]
 
