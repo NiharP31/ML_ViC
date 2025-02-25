@@ -2,7 +2,7 @@
 *.pth
 visualizarion_results/report.html
 *.jpg
-*.png
+# *.png
 *.csv
 __pycache__/
-visualization_results/
+visualization_results/report.html
