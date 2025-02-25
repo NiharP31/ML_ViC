@@ -4,3 +4,5 @@ visualizarion_results/report.html
 *.jpg
 *.png
 *.csv
+__pycache__/
+visualization_results/
